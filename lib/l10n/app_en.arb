@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flutter Demo",
+  "homePageTitle": "Flutter Demo Home Page",
+  "counterLabel": "You have pushed the button this many times:",
+  "incrementTooltip": "Increment"
+}
