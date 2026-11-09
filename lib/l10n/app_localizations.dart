@@ -121,6 +121,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Increment'**
   String get incrementTooltip;
+
+  /// No description provided for @languageMenuTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageMenuTooltip;
+
+  /// No description provided for @languageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get languageSystem;
 }
 
 class _AppLocalizationsDelegate

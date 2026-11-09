@@ -3,5 +3,7 @@
   "appTitle": "Flutter Demo",
   "homePageTitle": "Trang chủ Flutter Demo",
   "counterLabel": "Bạn đã nhấn nút số lần là:",
-  "incrementTooltip": "Tăng"
+  "incrementTooltip": "Tăng",
+  "languageMenuTooltip": "Ngôn ngữ",
+  "languageSystem": "Theo hệ thống"
 }

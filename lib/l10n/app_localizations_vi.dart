@@ -20,4 +20,10 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get incrementTooltip => 'Tăng';
+
+  @override
+  String get languageMenuTooltip => 'Ngôn ngữ';
+
+  @override
+  String get languageSystem => 'Theo hệ thống';
 }

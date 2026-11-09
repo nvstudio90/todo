@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
 
 import 'l10n/app_localizations.dart';
+import 'language/app_language.dart';
+import 'language/language_menu_button.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final languageController = await AppLanguageController.load();
+  runApp(MyApp(languageController: languageController));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.languageController});
+
+  final AppLanguageController languageController;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: languageController,
+      builder: _buildApp,
+    );
+  }
+
+  Widget _buildApp(BuildContext context, Widget? child) {
     return MaterialApp(
+      locale: languageController.value.locale,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -34,13 +48,15 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(languageController: languageController),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({super.key, required this.languageController});
+
+  final AppLanguageController languageController;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -80,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(l10n.homePageTitle),
+        actions: [LanguageMenuButton(controller: widget.languageController)],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
