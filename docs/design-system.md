@@ -107,9 +107,7 @@ Nhìn từ mẫu, có hai họ font, cả hai đều hỗ trợ tiếng Việt:
 ## 4. Khoảng cách, bo góc, đổ bóng
 
 **Khoảng cách** (bội số của 4): `4, 8, 12, 16, 20, 24, 32`.
-- Lề màn hình: 16
-- Khoảng giữa các thẻ: 16
-- Padding trong thẻ: 16 (điện thoại), 20 (tablet)
+- Lề màn hình, padding trong thẻ, khoảng giữa các thẻ: thay đổi theo nhóm thiết bị, xem [mục 6.4](#64-thông-số-theo-nhóm).
 - Chiều cao dòng việc: tối thiểu 56. Vùng bấm ngôi sao tối thiểu 44×44 để trẻ dễ bấm.
 
 **Bo góc:**
@@ -132,7 +130,7 @@ Nhìn từ mẫu, có hai họ font, cả hai đều hỗ trợ tiếng Việt:
 ### 5.1 Header
 - Thẻ `surface`, góc `radiusXl`.
 - Gồm: tiêu đề nhiều màu, dòng slogan "Be kind • Try your best • Have fun!", nhóm chip chọn bé và bộ chuyển tuần `‹ 9/11 – 15/11/2026 ›`.
-- Trên điện thoại, bộ chuyển tuần xuống một dòng riêng dưới chip chọn bé.
+- Điện thoại dọc: bộ chuyển tuần xuống một dòng riêng dưới chip chọn bé. Điện thoại ngang: gom lại thành một dòng (xem [mục 6.3](#63-ma-trận-bố-cục)).
 
 ### 5.2 Chip chọn bé (`KidChip`)
 - Hình viên thuốc, cao 40, padding ngang 20, font `labelLarge`.
@@ -190,15 +188,81 @@ Nhìn từ mẫu, có hai họ font, cả hai đều hỗ trợ tiếng Việt:
 ### 5.12 Nút phụ
 - "Sửa danh sách việc": nền `surface`, viền `border`, góc `radiusMd`, chữ `labelLarge`.
 
-## 6. Chuyển mẫu web sang điện thoại
+## 6. Bố cục theo thiết bị
 
-Mẫu là trang web, bảng 7 cột ngày không vừa màn hình điện thoại (phải cuộn ngang).
-App giữ nguyên ngôn ngữ thiết kế nhưng sắp lại bố cục cho điện thoại.
+Mục này theo quy ước layout trong [CLAUDE.md](../CLAUDE.md):
+- Mọi màn phải chạy đúng trên phone, máy gập và tablet, ở cả chiều dọc lẫn chiều ngang.
+- Chọn bố cục theo `MediaQuery.sizeOf(context).shortestSide` và `MediaQuery.orientationOf(context)`, không theo tên máy hay `Platform.isX`.
 
-| Kích thước | Bố cục |
-|---|---|
-| **Điện thoại** (< 600dp) | Thanh tab dưới, 4 tab (xem [app-plan.md](app-plan.md)). Màn **Hôm nay** dùng **thanh chọn ngày** T2…CN (mỗi chip mang màu pastel của ngày) và danh sách việc dạng thẻ, mỗi việc một dòng với **một** ngôi sao lớn. Bảng tuần đầy đủ nằm ở tab **Cả tuần**: cột tên việc cố định bên trái, cuộn ngang phần ngày. |
-| **Tablet** (≥ 600dp) | Giống mẫu web: bảng tuần ở cột chính, cột phụ bên phải chứa Điểm và Đổi thưởng. Level, Streak và Ghi chú xếp thành hàng ba thẻ ở cuối. |
+### 6.1 Nhóm kích thước
+
+| Nhóm (`LayoutClass`) | `shortestSide` | Thiết bị điển hình |
+|---|---|---|
+| `compact` | < 600 | Điện thoại, màn ngoài của máy gập |
+| `medium` | ≥ 600 | Tablet 7", màn trong của máy gập (gần vuông) |
+| `expanded` | ≥ 720 | Tablet 8–9" (iPad mini) |
+| `large` | ≥ 800 | Tablet từ 10" trở lên (iPad, iPad Pro) |
+
+Breakpoint, khoảng cách, cỡ chữ và số cột cho từng nhóm và từng chiều gom vào một chỗ duy nhất: `LayoutConfig` trong `lib/core/layout/`.
+
+### 6.2 Hai cấu trúc màn hình
+
+App chỉ có hai cấu trúc khác nhau thật sự. Mọi thứ còn lại dùng chung widget, chỉ đổi thông số lấy từ `LayoutConfig`.
+
+| Cấu trúc | Dùng cho | Mô tả |
+|---|---|---|
+| **Tab** | `compact` | 4 tab: Hôm nay, Cả tuần, Đổi thưởng, Thành tích (xem [app-plan.md](app-plan.md)). Bảng 7 ngày không vừa điện thoại dọc, nên màn **Hôm nay** dùng **thanh chọn ngày** T2…CN (mỗi chip mang màu pastel của ngày) và danh sách việc với **một** ngôi sao lớn mỗi dòng. |
+| **Dashboard** | `medium` trở lên | Một màn cuộn giống mẫu web: header, bảng tuần, Điểm, Đổi thưởng, rồi Level, Streak và Ghi chú. |
+
+Máy gập chuyển giữa hai cấu trúc khi gập hoặc mở. Trạng thái (bé đang chọn, tuần, ngày, tab) phải nằm trong provider Riverpod, không nằm trong `State` của widget, để không bị mất khi chuyển.
+
+### 6.3 Ma trận bố cục
+
+| Nhóm | Dọc | Ngang |
+|---|---|---|
+| **compact** | `NavigationBar` ở dưới. Header 2 dòng: chip chọn bé, rồi bộ chuyển tuần. **Hôm nay**: thanh chọn ngày và 1 cột việc. **Cả tuần**: cột tên cố định, cuộn ngang phần ngày. **Đổi thưởng**: lưới 2 cột. | `NavigationRail` bên trái để tiết kiệm chiều cao. Header gọn trong 1 dòng, thẻ điểm thu lại thành chip "⭐ 7" nằm trong header. **Hôm nay**: 2 cột (Bắt buộc, Tự chọn). **Cả tuần**: thường đủ chỗ cho 7 ngày, chỉ cuộn khi thiếu. **Đổi thưởng**: lưới 3 cột. |
+| **medium** | Header và thẻ điểm nằm cùng hàng. Bảng tuần rộng hết màn. Đổi thưởng là lưới 3 cột bên dưới. Level rộng hết màn, Streak và Ghi chú chia 2 cột. | Bảng tuần ở cột chính. Cột phụ bên phải chứa Điểm và Đổi thưởng (danh sách 1 cột). Level, Streak và Ghi chú chia 3 cột. |
+| **expanded** | Như `medium` dọc. | Như `medium` ngang. |
+| **large** | Như `medium` dọc, nội dung rộng tối đa 960 và căn giữa. | Như `medium` ngang, nội dung rộng tối đa 1200 và căn giữa. |
+
+### 6.4 Thông số theo nhóm
+
+| Thông số | compact | medium | expanded | large |
+|---|---|---|---|---|
+| Lề màn hình | 16 | 20 | 24 | 24 |
+| Padding trong thẻ | 16 | 16 | 20 | 20 |
+| Khoảng giữa các thẻ | 12 | 16 | 16 | 20 |
+| Rộng cột tên việc (bảng tuần) | 168 | 220 | 240 | 260 |
+| Rộng tối thiểu cột ngày | 44 | 48 | 52 | 56 |
+| Rộng cột phụ (chỉ chiều ngang) | – | 280 | 300 | 320 |
+| Rộng tối đa của sheet và dialog | hết màn | 480 | 520 | 560 |
+| Cỡ `displayLarge` | 36 dọc, 28 ngang | 36 | 40 | 40 |
+
+Các cỡ chữ còn lại giữ nguyên như bảng ở mục 3, cho mọi nhóm.
+
+### 6.5 Quy tắc chung
+
+- Không hard-code width/height cho container chính. Dùng `LayoutBuilder`, `Expanded`/`Flexible` và `ConstrainedBox(maxWidth: …)`.
+- Mọi màn đều cuộn được. Các nút quan trọng (**Thêm**, **Đổi ngay**) không được bị đẩy ra ngoài màn khi điện thoại nằm ngang hoặc khi bàn phím mở (`MediaQuery.viewInsetsOf`).
+- Tôn trọng `SafeArea` và tai thỏ.
+- Bảng tuần: cột tên việc cố định khi cuộn ngang. Nếu đủ chỗ thì không cuộn, phần thừa chia đều cho các cột ngày.
+- Tên việc hiển thị tối đa 2 dòng, quá thì cắt bằng dấu "…". Không để xảy ra lỗi overflow.
+
+### 6.6 Cấu hình cần kiểm tra
+
+Theo CLAUDE.md, trước khi báo xong một màn hình phải kiểm tra ít nhất các cấu hình dưới đây, **ở cả chiều dọc và chiều ngang**. Báo cáo phải ghi rõ cấu hình nào đã kiểm, cấu hình nào chưa.
+
+| Nhóm | iOS Simulator | Android emulator (`adb shell wm size` / `wm density`) | Kích thước (dp) |
+|---|---|---|---|
+| Phone | iPhone 17 | `1080x2400` / `420` | 411 × 914 |
+| Màn ngoài máy gập | – | `904x2316` / `420` | 344 × 882 |
+| Màn trong máy gập | – | `1812x2176` / `420` | 690 × 829 |
+| Tablet 7" | – | `1200x1920` / `320` | 600 × 960 |
+| Tablet 8–9" | iPad mini (A17 Pro) | `1536x2048` / `320` | 768 × 1024 |
+| Tablet từ 10" | iPad Pro 13-inch (M5) | `1600x2560` / `320` | 800 × 1280 |
+
+Với máy gập, cần thử thêm việc gập/mở khi đang dùng app (đổi `wm size` giữa chừng): trạng thái đang xem không được mất.
+Đổi lại kích thước thật của emulator: `adb shell wm size reset` và `adb shell wm density reset`.
 
 ## 7. Ánh xạ sang Flutter
 
@@ -207,4 +271,5 @@ App giữ nguyên ngôn ngữ thiết kế nhưng sắp lại bố cục cho đi
 - Bo góc và khoảng cách đặt trong `abstract final class AppRadius` / `AppSpacing`.
 - Font: khai báo trong `pubspec.yaml` (assets), `TextTheme` riêng theo bảng ở mục 3.
 - Emoji: dùng emoji hệ thống (`Text('🛏️')`). Nếu muốn giống nhau trên iOS và Android, cân nhắc gói font Noto Color Emoji.
-- Vị trí đề xuất: `lib/core/theme/app_theme.dart`, `app_colors.dart`, `app_typography.dart`, `app_spacing.dart`.
+- Nhóm thiết bị và thông số bố cục: `LayoutClass` và `LayoutConfig` (mục 6), lấy qua `LayoutConfig.of(context)`.
+- Vị trí đề xuất: `lib/core/theme/app_theme.dart`, `app_colors.dart`, `app_typography.dart`, `app_spacing.dart`. Bố cục đặt trong `lib/core/layout/breakpoints.dart` và `layout_config.dart`.

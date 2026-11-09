@@ -100,9 +100,15 @@ Ghi chú:
 | 3 | 🪴 | Family Hero | 100–149 |
 | 4 | 🌳 | Independent Kid | 150+ |
 
-## 5. Màn hình (điện thoại)
+## 5. Màn hình
 
-Điều hướng bằng thanh tab dưới. Header (tiêu đề, chip chọn bé, chuyển tuần) dùng chung cho các tab.
+Mọi màn phải chạy đúng trên phone, máy gập và tablet, ở cả chiều dọc lẫn chiều ngang (quy ước trong [CLAUDE.md](../CLAUDE.md)).
+Bố cục cụ thể cho từng nhóm thiết bị xem ở [design-system.md, mục 6](design-system.md#6-bố-cục-theo-thiết-bị).
+
+### 5.1 Điện thoại và màn ngoài máy gập (`compact`)
+
+Điều hướng bằng 4 tab: `NavigationBar` ở dưới khi cầm dọc, `NavigationRail` bên trái khi cầm ngang.
+Header (tiêu đề, chip chọn bé, chuyển tuần) dùng chung cho các tab.
 
 | Tab | Nội dung |
 |---|---|
@@ -111,11 +117,19 @@ Ghi chú:
 | **Đổi thưởng** | "Còn X điểm", lưới 2 cột thẻ phần thưởng (F8), lịch sử đã đổi. |
 | **Thành tích** | Level (F9), Streak (F10), Ghi chú tuần (F11). |
 
-Màn phụ:
-- **Sửa danh sách** (mở từ nút ✏️ trên header): hai tab Bắt buộc / Tự chọn, kéo để sắp xếp, thêm/sửa/xoá việc (bottom sheet gồm chọn emoji, tên, điểm). Có thêm mục Phần thưởng và mục Tên các bé.
-- **Xác nhận đổi thưởng**: dialog "Đổi 20 ⭐ lấy 'Chọn món tráng miệng yêu thích'?", đổi xong bắn confetti.
+### 5.2 Tablet và màn trong máy gập (`medium` trở lên)
 
-Trên tablet (≥ 600dp), bố cục giống mẫu web: bảng tuần cùng cột phụ chứa Điểm và Đổi thưởng.
+Một màn **Dashboard** cuộn được, giống mẫu web: header, bảng tuần, Điểm, Đổi thưởng, Level, Streak và Ghi chú.
+- Cầm ngang: Điểm và Đổi thưởng nằm ở cột phụ bên phải.
+- Cầm dọc: Điểm và Đổi thưởng xếp bên dưới bảng tuần.
+
+Khi gập hoặc mở máy, app chuyển giữa Tab và Dashboard mà vẫn giữ nguyên bé, tuần và ngày đang chọn.
+
+### 5.3 Màn phụ (mọi thiết bị)
+
+- **Sửa danh sách** (mở từ nút ✏️ trên header): hai tab Bắt buộc / Tự chọn, kéo để sắp xếp, thêm/sửa/xoá việc. Có thêm mục Phần thưởng và mục Tên các bé.
+  - Form thêm/sửa việc (chọn emoji, tên, điểm) mở dạng bottom sheet trên `compact`, dạng dialog rộng tối đa 480–560 từ `medium` trở lên.
+- **Xác nhận đổi thưởng**: dialog "Đổi 20 ⭐ lấy 'Chọn món tráng miệng yêu thích'?", đổi xong bắn confetti.
 
 ## 6. Kiến trúc
 
@@ -137,6 +151,7 @@ lib/
   app.dart                     # MaterialApp.router + theme
   core/
     theme/                     # app_theme, app_colors, app_typography, app_spacing
+    layout/                    # breakpoints, LayoutClass, LayoutConfig (theo shortestSide + orientation)
     router/                    # go_router config
     utils/                     # date/week helpers
   data/
@@ -154,8 +169,12 @@ lib/
   widgets/                     # KidChip, WeekSwitcher, StarToggle, PointsCard, ...
 test/
   domain/scoring/              # unit test luật tính điểm
-  features/                    # widget test
+  features/                    # widget test (chạy ở nhiều kích thước màn hình)
 ```
+
+**Quy ước code:** theo [CLAUDE.md](../CLAUDE.md):
+- Mỗi function có tối đa 3 dòng comment, comment nói vì sao chứ không nói làm gì.
+- Layout phải đúng trên mọi nhóm thiết bị và cả hai chiều màn hình.
 
 ## 7. Mô hình dữ liệu (bảng drift)
 
@@ -178,6 +197,8 @@ Streak bonus **không lưu**, mà tính từ `completions` và `tasks`. Cách n�
 - [ ] Thêm dependency (riverpod, drift, go_router, intl, flutter_animate, confetti)
 - [ ] Bật lint chặt hơn (`very_good_analysis` hoặc tự cấu hình)
 - [ ] Thêm font vào assets, dựng `AppTheme` sáng/tối theo [design-system.md](design-system.md)
+- [ ] Dựng `LayoutClass` và `LayoutConfig` (breakpoint, khoảng cách, số cột) theo design-system mục 6, kèm unit test chọn nhóm theo kích thước
+- [ ] Khung điều hướng chuyển giữa Tab và Dashboard theo `LayoutClass`, state đặt trong provider để không mất khi gập/mở máy
 - [ ] Màn "gallery" nội bộ để xem các component
 
 ### Giai đoạn 1: Dữ liệu và luật tính điểm
@@ -192,11 +213,12 @@ Streak bonus **không lưu**, mà tính từ `completions` và `tasks`. Cách n�
 - [ ] Thanh chọn ngày T2…CN với màu pastel
 - [ ] Danh sách việc bắt buộc và tự chọn, `StarToggle` có hiệu ứng và rung
 - [ ] Tổng điểm ngày
+- [ ] Điện thoại ngang: `NavigationRail`, header 1 dòng, 2 cột việc
 
-### Giai đoạn 3: Màn Cả tuần
-- [ ] Bảng tuần: cột tên cố định, cuộn ngang, cột ngày có màu, gạch chân ngày hôm nay
+### Giai đoạn 3: Màn Cả tuần và Dashboard
+- [ ] Bảng tuần: cột tên cố định, cuộn ngang khi thiếu chỗ, cột ngày có màu, gạch chân ngày hôm nay
 - [ ] Cột Total và dòng "Tổng điểm theo ngày"
-- [ ] Bố cục tablet giống mẫu web
+- [ ] Dashboard cho `medium` trở lên: dọc thì xếp chồng, ngang thì thêm cột phụ
 
 ### Giai đoạn 4: Đổi thưởng và Thành tích
 - [ ] Lưới phần thưởng, trạng thái "Cần thêm X điểm" và "Đổi ngay"
@@ -212,6 +234,8 @@ Streak bonus **không lưu**, mà tính từ `completions` và `tasks`. Cách n�
 - [ ] (Tuỳ chọn) Khoá phụ huynh bằng mã PIN 4 số
 
 ### Giai đoạn 6: Hoàn thiện và phát hành
+- [ ] Kiểm tra layout trên đủ các cấu hình ở design-system mục 6.6 (phone, máy gập, tablet 7"/9"/10"+), cả dọc và ngang
+- [ ] Gập/mở máy khi đang dùng app: không mất state, không overflow
 - [ ] Kiểm tra chế độ tối, cỡ chữ lớn, TalkBack/VoiceOver
 - [ ] Icon app và splash screen
 - [ ] Widget test các màn chính, golden test cho component
