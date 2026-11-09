@@ -2,7 +2,8 @@
 
 Tài liệu này mô tả giao diện app, lấy theo mẫu thiết kế
 [Bảng việc của các bé](https://claude.ai/artifact/4Swq87kD26qksGpWUwru3P).
-Ảnh chụp mẫu nằm trong [design/reference](design/reference).
+Ảnh chụp mẫu nằm trong [design/reference](design/reference), bản HTML dựng lại từ ảnh ở
+[design/reference.html](design/reference.html).
 
 > Mã màu được đo từ ảnh chụp màn hình, không phải từ CSS gốc, nên có thể lệch vài đơn vị.
 > Trước khi chốt, đặt app cạnh ảnh mẫu để so lại.

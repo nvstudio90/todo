@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bảng việc của các bé</title>
+<!-- Dựng lại từ ảnh chụp trong reference/ để xem mẫu ở mọi khổ màn. Dữ liệu chỉ nằm trong bộ nhớ. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  })();
+</script>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #F2F6FF;
+    --surface: #FFFFFF;
+    --surface-alt: #FBFAFF;
+    --inset: #F6F6FA;
+    --border: #E6E8F2;
+    --text: #2A2438;
+    --text2: #6B6B7B;
+    --muted: #A8A8B3;
+    --primary: #7B4FD6;
+    --on-primary: #FFFFFF;
+    --primary-soft: #EEE8FE;
+    --chip-idle: #F6F4FF;
+    --star: #F5B800;
+    --star-empty: #C0C8D0;
+    --t-my: #7B4FD6;
+    --t-to: #F0901E;
+    --t-dash: #3FA36B;
+    --t-do: #3A7BE0;
+    --bullet: #D04070;
+    --must-bg: #FDE8EF;
+    --must-border: #F6C3D3;
+    --must-text: #C8406E;
+    --opt-bg: #EAF4E3;
+    --opt-border: #C9E3BE;
+    --opt-text: #4E8A45;
+    --on-section: #FFFFFF;
+    --points-bg: #FEF5D5;
+    --reward-bg: #FDE8EF;
+    --reward-text: #C8406E;
+    --streak-bg: #EEE8FE;
+    --streak-text: #6E4FC4;
+    --notes-bg: #FEF5D5;
+    --rule: rgba(42, 36, 56, 0.15);
+    --shadow: 0 1px 2px rgba(42, 36, 56, 0.06);
+    --d1: #EEF4FF;
+    --d2: #EAF9F7;
+    --d3: #FFF6E0;
+    --d4: #F6EEFF;
+    --d5: #EEF8EE;
+    --d6: #FFF2E4;
+    --d7: #FDEEF4;
+
+    --gutter: 16px;
+    --gap: 12px;
+    --pad: 16px;
+    --name-w: 168px;
+    --day-w: 44px;
+    --reward-cols: 2;
+    --h1: 36px;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #121421;
+    --surface: #1D1F2D;
+    --surface-alt: #202230;
+    --inset: #181A27;
+    --border: #2A2C3C;
+    --text: #E8E6F2;
+    --text2: #A9A8BA;
+    --muted: #6E6E80;
+    --primary: #B29DF5;
+    --on-primary: #1D1F2D;
+    --primary-soft: #2B2447;
+    --chip-idle: #10131B;
+    --star-empty: #505068;
+    --t-my: #B49CFA;
+    --t-to: #F7931E;
+    --t-dash: #4CB87D;
+    --t-do: #4A84E6;
+    --must-bg: #36212C;
+    --must-border: #4A2A3A;
+    --must-text: #E28AAA;
+    --opt-bg: #1E3022;
+    --opt-border: #2C4A30;
+    --opt-text: #9FCB96;
+    --on-section: #1D1F2D;
+    --points-bg: #3A3120;
+    --reward-bg: #36212A;
+    --reward-text: #E088A8;
+    --streak-bg: #2B2448;
+    --streak-text: #A99CE0;
+    --notes-bg: #3A3120;
+    --rule: rgba(232, 230, 242, 0.15);
+    --shadow: none;
+    --d1: #22263A;
+    --d2: #1F2A32;
+    --d3: #2C2C2A;
+    --d4: #24253D;
+    --d5: #202B2A;
+    --d6: #2E2727;
+    --d7: #2C2333;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 14px/20px 'Be Vietnam Pro', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  button:disabled { cursor: default; }
+  :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  h1, h2 { margin: 0; font-family: 'Baloo 2', 'Be Vietnam Pro', system-ui, sans-serif; }
+
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--gutter);
+    display: grid;
+    gap: var(--gap);
+  }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .toolbar select {
+    margin-left: 6px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 6px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: var(--pad);
+    box-shadow: var(--shadow);
+    min-width: 0;
+  }
+
+  .top, .main, .bottom { display: grid; gap: var(--gap); align-items: start; }
+  .top { align-items: stretch; }
+  .header h1 { font-size: var(--h1); line-height: 1.1; font-weight: 800; }
+  .t-my { color: var(--t-my); }
+  .t-to { color: var(--t-to); }
+  .t-dash { color: var(--t-dash); }
+  .t-do { color: var(--t-do); }
+  .slogan {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 12px;
+    margin: 10px 0 16px;
+    color: var(--text2);
+    font-weight: 500;
+  }
+  .slogan b { color: var(--bullet); }
+  .header-controls { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .kids { display: flex; flex-wrap: wrap; gap: 8px; }
+  .kid {
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--chip-idle);
+    font-weight: 700;
+  }
+  .kid[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+  .week { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 15px; }
+  .week button {
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-weight: 700;
+  }
+
+  .points { background: var(--points-bg); border-radius: 20px; padding: var(--pad) 20px; }
+  .points h2 { font-size: 18px; line-height: 24px; font-weight: 700; }
+  .points .big {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 4px 0 10px;
+    font: 800 40px/44px 'Baloo 2', system-ui, sans-serif;
+  }
+  .points .big svg { width: 30px; height: 30px; fill: var(--star); }
+  .points dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: baseline; }
+  .points dt { font-size: 12px; line-height: 16px; color: var(--text2); font-weight: 500; }
+  .points dd { margin: 0; font-weight: 700; text-align: right; }
+
+  .banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: var(--text2);
+  }
+
+  .col-main { display: grid; gap: var(--gap); min-width: 0; }
+  .tasks {
+    border: 1.5px solid var(--sec-border);
+    border-radius: 20px;
+    background: var(--surface);
+    overflow: hidden;
+    min-width: 0;
+  }
+  .tasks.must { --sec-bg: var(--must-bg); --sec-border: var(--must-border); --sec-text: var(--must-text); }
+  .tasks.opt { --sec-bg: var(--opt-bg); --sec-border: var(--opt-border); --sec-text: var(--opt-text); }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; table-layout: fixed; min-width: calc(var(--name-w) + 56px + 7 * var(--day-w) + 60px); }
+  col.c-name { width: var(--name-col, var(--name-w)); }
+  col.c-pt { width: 56px; }
+  col.c-total { width: 60px; }
+  th, td { padding: 0; text-align: center; vertical-align: middle; border-bottom: 1px solid var(--border); }
+  thead th { background: var(--surface); font-weight: 700; line-height: 16px; padding: 10px 2px; }
+  thead th small, thead th .vi { display: block; font-weight: 600; color: var(--muted); }
+  thead .name, thead .pt { background: var(--sec-bg); }
+  thead .name { text-align: left; padding: 10px 12px 10px 16px; line-height: 24px; }
+  .sec-title { font: 800 22px/28px 'Baloo 2', system-ui, sans-serif; color: var(--sec-text); }
+  .sec-sub { font: 600 15px/20px 'Baloo 2', system-ui, sans-serif; color: var(--sec-text); }
+  thead .today { color: var(--primary); box-shadow: inset 0 -2px 0 var(--primary); }
+  thead .today small { color: var(--primary); }
+  .name { position: sticky; left: 0; z-index: 1; }
+  tbody .name { background: var(--surface-alt); text-align: left; padding: 6px 8px 6px 16px; }
+  .name-inner { display: flex; align-items: center; gap: 12px; min-height: 44px; }
+  .name-inner .emoji { flex: none; width: 24px; font-size: 18px; text-align: center; }
+  .name-inner .label {
+    flex: 1;
+    min-width: 0;
+    font-size: 15px;
+    line-height: 21px;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .del {
+    display: none;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--text2);
+    font-size: 18px;
+  }
+  body.editing .del { display: inline-grid; place-items: center; }
+  tbody td { height: 56px; }
+  tbody .pt { background: var(--sec-bg); color: var(--sec-text); font-weight: 700; }
+  .day { background: var(--day); }
+  thead .day { background: var(--surface); }
+  .d1 { --day: var(--d1); } .d2 { --day: var(--d2); } .d3 { --day: var(--d3); } .d4 { --day: var(--d4); }
+  .d5 { --day: var(--d5); } .d6 { --day: var(--d6); } .d7 { --day: var(--d7); }
+  .total { font-weight: 700; }
+  tfoot th, tfoot td { border-bottom: 0; padding: 10px 2px; font-weight: 700; background: var(--surface); }
+  tfoot .name { text-align: left; padding-left: 16px; }
+  tfoot .day { background: var(--day); color: var(--text2); }
+  .star {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: none;
+    display: inline-grid;
+    place-items: center;
+  }
+  .star svg { width: 22px; height: 22px; fill: none; stroke: var(--star-empty); stroke-width: 1.5; stroke-linejoin: round; }
+  .star[aria-pressed="true"] svg { width: 24px; height: 24px; fill: var(--star); stroke: var(--star); }
+  .star.pop svg { animation: pop 250ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  @keyframes pop { 50% { transform: scale(1.3); } }
+  .add-row {
+    display: none;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+    background: var(--sec-bg);
+    border-top: 1px solid var(--border);
+  }
+  body.editing .add-row { display: flex; }
+  .field {
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--inset);
+    padding: 0 10px;
+    min-width: 0;
+  }
+  .add-row .emoji-btn { width: 44px; padding: 0; font-size: 16px; }
+  .add-row .task-name { flex: 1 1 160px; }
+  .add-row .task-pts { width: 64px; }
+  .add-row .add {
+    height: 36px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--sec-text);
+    color: var(--on-section);
+    font-weight: 700;
+  }
+
+  .rewards {
+    background: var(--reward-bg);
+    border: 1.5px solid var(--must-border);
+    border-radius: 20px;
+    padding: var(--pad);
+    min-width: 0;
+  }
+  .rewards header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; margin-bottom: 12px; }
+  .rewards h2 { font-size: 24px; line-height: 30px; font-weight: 800; color: var(--reward-text); }
+  .rewards .left { color: var(--text2); font-size: 13px; font-weight: 600; }
+  .reward-grid { display: grid; grid-template-columns: repeat(var(--reward-cols), minmax(0, 1fr)); gap: 12px; }
+  .reward {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto;
+    gap: 4px 8px;
+  }
+  .reward .cost { display: flex; align-items: center; gap: 4px; font: 800 18px/24px 'Baloo 2', system-ui, sans-serif; }
+  .reward .cost svg { width: 20px; height: 20px; fill: var(--star); }
+  .reward .emoji { grid-column: 2; grid-row: 1 / 3; align-self: center; font-size: 32px; line-height: 1; }
+  .reward p { margin: 0; color: var(--text2); grid-column: 1; }
+  .reward button {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    min-height: 32px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--inset);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .reward button:enabled { background: var(--reward-text); border-color: transparent; color: var(--on-section); }
+
+  .bottom h2 { font-size: 20px; line-height: 26px; font-weight: 800; margin-bottom: 12px; }
+  .track { display: flex; align-items: stretch; gap: 2px; }
+  .level {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 2px;
+    padding: 8px 4px;
+    border-radius: 12px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .level .e { font-size: 22px; line-height: 28px; }
+  .level b { font-size: 13px; }
+  .level small { font-size: 12px; line-height: 16px; }
+  .level.reached { color: var(--text2); }
+  .level.current { background: var(--primary-soft); color: var(--text); }
+  .level:not(.current):not(.reached) .e { opacity: 0.6; }
+  .arrow { align-self: center; color: var(--muted); font-size: 12px; flex: none; }
+  .bar { height: 8px; margin: 14px 0 10px; border-radius: 999px; background: var(--primary-soft); overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: inherit; background: var(--primary); transition: width 300ms; }
+  .levels p { margin: 0; }
+  .streak { background: var(--streak-bg); border-radius: 20px; padding: var(--pad) 20px; min-width: 0; }
+  .streak p { margin: 0; color: var(--text2); }
+  .chips { display: grid; grid-template-columns: repeat(7, minmax(0, 48px)); gap: 6px; margin: 12px 0; }
+  .chips span { padding: 6px 0; text-align: center; border-radius: 8px; background: var(--surface); color: var(--text2); font-size: 13px; font-weight: 700; }
+  .chips span.done { background: var(--primary); color: var(--on-primary); }
+  .streak .progress { color: var(--streak-text); font-weight: 700; }
+  .notes {
+    background: var(--notes-bg);
+    border-radius: 20px;
+    padding: var(--pad) 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .notes textarea {
+    flex: 1;
+    width: 100%;
+    min-height: 112px;
+    padding: 0 4px;
+    border: 0;
+    outline: none;
+    resize: vertical;
+    line-height: 28px;
+    background: transparent linear-gradient(transparent 27px, var(--rule) 27px) 0 0 / 100% 28px local;
+  }
+  .notes textarea::placeholder { color: var(--text2); }
+
+  .edit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .btn {
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-weight: 700;
+  }
+  .btn[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: var(--surface); }
+  .kid-names { display: none; flex-wrap: wrap; gap: 12px; }
+  body.editing .kid-names { display: flex; }
+  .kid-names label { display: flex; align-items: center; gap: 8px; color: var(--text2); font-size: 13px; }
+  .kid-names .field { width: 140px; }
+  .hint { margin: 0; color: var(--text2); font-size: 13px; }
+
+  @media (max-width: 599px) {
+    .reward .emoji { grid-row: 1; align-self: start; font-size: 26px; }
+    .reward p { grid-column: 1 / -1; }
+    .reward button { font-size: 12px; padding: 4px 6px; }
+  }
+  @media (min-width: 600px) {
+    :root { --gutter: 20px; --gap: 16px; --name-w: 220px; --name-col: 32%; --day-w: 48px; --reward-cols: 3; }
+    .top { grid-template-columns: minmax(0, 1fr) 240px; }
+    .header-controls { flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .bottom { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; }
+    .levels { grid-column: 1 / -1; }
+  }
+  @media (min-width: 1024px) {
+    :root { --gutter: 24px; --pad: 20px; --name-w: 240px; --name-col: 36%; --day-w: 52px; --reward-cols: 1; --h1: 40px; }
+    .top, .main { grid-template-columns: minmax(0, 1fr) 300px; }
+    .bottom { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr); }
+    .levels { grid-column: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="toolbar">
+    <span>Design reference: dựng lại từ ảnh chụp trong <code>reference/</code></span>
+    <label>Giao diện
+      <select id="theme">
+        <option value="auto">Theo máy</option>
+        <option value="light">Sáng</option>
+        <option value="dark">Tối</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="top">
+    <header class="card header">
+      <h1><span class="t-my">My</span> <span class="t-to">To</span><span class="t-dash">-</span><span class="t-do">Do</span> <span class="t-my">List</span></h1>
+      <div class="slogan"><span>Be kind</span><b>•</b><span>Try your best</span><b>•</b><span>Have fun!</span></div>
+      <div class="header-controls">
+        <div class="kids" id="kids"></div>
+        <div class="week">
+          <button type="button" data-week="-1" aria-label="Tuần trước">‹</button>
+          <span id="week-label"></span>
+          <button type="button" data-week="1" aria-label="Tuần sau">›</button>
+        </div>
+      </div>
+    </header>
+    <section class="points" aria-labelledby="points-title">
+      <h2 id="points-title">My Points Today</h2>
+      <div class="big"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#star"/></svg><span id="pts-today"></span></div>
+      <dl>
+        <dt>Tuần này</dt><dd id="pts-week"></dd>
+        <dt>Tổng đã tích</dt><dd id="pts-total"></dd>
+        <dt>Còn lại để đổi</dt><dd id="pts-left"></dd>
+      </dl>
+    </section>
+  </div>
+
+  <div class="banner">Bản offline: dữ liệu chỉ lưu trong trình duyệt trên máy này.</div>
+
+  <div class="main">
+    <div class="col-main">
+      <section class="tasks must">
+        <div class="scroll"><table data-table="must"></table></div>
+        <form class="add-row" data-add="must">
+          <button type="button" class="field emoji-btn" data-emoji="must" aria-label="Đổi emoji"></button>
+          <input class="field task-name" name="name" placeholder="Thêm việc bắt buộc..." required>
+          <input class="field task-pts" name="pts" type="number" min="1" max="10" value="2" aria-label="Điểm">
+          <button class="add">Thêm</button>
+        </form>
+      </section>
+      <section class="tasks opt">
+        <div class="scroll"><table data-table="opt"></table></div>
+        <form class="add-row" data-add="opt">
+          <button type="button" class="field emoji-btn" data-emoji="opt" aria-label="Đổi emoji"></button>
+          <input class="field task-name" name="name" placeholder="Thêm việc tự chọn..." required>
+          <input class="field task-pts" name="pts" type="number" min="1" max="10" value="2" aria-label="Điểm">
+          <button class="add">Thêm</button>
+        </form>
+      </section>
+    </div>
+    <section class="rewards" aria-labelledby="rewards-title">
+      <header><h2 id="rewards-title">🎁 Đổi thưởng</h2><span class="left" id="rewards-left"></span></header>
+      <div class="reward-grid" id="rewards"></div>
+    </section>
+  </div>
+
+  <div class="bottom">
+    <section class="card levels" aria-labelledby="levels-title">
+      <h2 id="levels-title">🏆 My Levels</h2>
+      <div class="track" id="track"></div>
+      <div class="bar"><i id="bar"></i></div>
+      <p id="level-text"></p>
+    </section>
+    <section class="streak" aria-labelledby="streak-title">
+      <h2 id="streak-title">🔥 Streak Bonus</h2>
+      <p>Hoàn thành các task bắt buộc 7 ngày liên tiếp trong tuần → <b>+10 điểm!</b></p>
+      <div class="chips" id="streak-chips"></div>
+      <div class="progress" id="streak-text"></div>
+    </section>
+    <section class="notes" aria-labelledby="notes-title">
+      <h2 id="notes-title">✏️ Notes</h2>
+      <textarea id="notes" rows="3" placeholder="Ghi chú của bố mẹ cho tuần này..." aria-labelledby="notes-title"></textarea>
+    </section>
+  </div>
+
+  <div class="edit-row">
+    <button type="button" class="btn" id="edit" aria-pressed="false">Sửa danh sách việc</button>
+    <div class="kid-names">
+      <label>Tên bé 1 <input class="field" data-kid-name="0"></label>
+      <label>Tên bé 2 <input class="field" data-kid-name="1"></label>
+    </div>
+  </div>
+  <p class="hint">Bấm vào ngôi sao để đánh dấu đã làm. Các bé dùng chung danh sách việc, mỗi bé có bảng sao và điểm riêng.</p>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 24 24">
+    <path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45l-5.8 3.05 1.1-6.45-4.7-4.6 6.5-.95z"/>
+  </symbol>
+</svg>
+
+<script>
+  // Ngày chụp ảnh mẫu, để lúc mở trang số liệu khớp với ảnh.
+  const TODAY = new Date(2026, 10, 9);
+  const TODAY_INDEX = (TODAY.getDay() + 6) % 7;
+  const DAYS = [['Mon', 'T2'], ['Tue', 'T3'], ['Wed', 'T4'], ['Thu', 'T5'], ['Fri', 'T6'], ['Sat', 'T7'], ['Sun', 'CN']];
+  const STREAK_BONUS = 10;
+  const LEVELS = [
+    { emoji: '🌱', name: 'Little Helper', min: 0, range: '0–49đ' },
+    { emoji: '🌿', name: 'Super Helper', min: 50, range: '50–99đ' },
+    { emoji: '🪴', name: 'Family Hero', min: 100, range: '100–149đ' },
+    { emoji: '🌳', name: 'Independent Kid', min: 150, range: '150+đ' },
+  ];
+  const REWARDS = [
+    { cost: 20, emoji: '🍦', text: 'Chọn món tráng miệng yêu thích' },
+    { cost: 30, emoji: '🎬', text: 'Chọn phim xem cùng gia đình' },
+    { cost: 40, emoji: '🎲', text: 'Chọn trò chơi gia đình' },
+    { cost: 50, emoji: '🚗', text: 'Được chọn địa điểm đi chơi cuối tuần' },
+    { cost: 70, emoji: '🎁', text: 'Một món đồ nhỏ bé thích' },
+    { cost: 100, emoji: '🎡', text: 'Một trải nghiệm đặc biệt: đi chơi, workshop, khu vui chơi...' },
+  ];
+  const EMOJIS = ['⭐', '🎨', '📖', '🧹', '🧺', '🪴', '🎵', '⚽', '🧩', '🍎', '🐶', '🦷'];
+
+  let seq = 0;
+  const task = (emoji, name, pts) => ({ id: ++seq, emoji, name, pts });
+  const lists = {
+    must: [
+      task('🛏️', 'Tự gấp chăn/gọn giường sau khi ngủ dậy', 2),
+      task('🪥', 'Đánh răng sáng + tối', 2),
+      task('👕', 'Tự mặc quần áo và bỏ đồ bẩn đúng chỗ', 2),
+      task('🎒', 'Chuẩn bị cặp sách/đồ đi học', 2),
+      task('🍴', 'Ăn uống gọn gàng, không cần nhắc nhiều', 2),
+      task('🧸', 'Dọn đồ chơi sau khi chơi', 2),
+      task('📚', 'Hoàn thành bài tập/việc học trong ngày', 3),
+      task('🚿', 'Tắm rửa, thay đồ, chuẩn bị đi ngủ', 2),
+    ],
+    opt: [
+      task('📖', 'Đọc sách 15–20 phút', 3),
+      task('🧹', 'Chủ động giúp một việc nhà', 3),
+      task('🧺', 'Gấp/cất quần áo', 2),
+      task('🪴', 'Tưới cây/chăm cây', 2),
+      task('🎨', 'Vẽ, làm thủ công hoặc hoạt động sáng tạo', 2),
+      task('👟', 'Vận động ngoài trời ≥30 phút', 3),
+      task('🇬🇧', 'Học tiếng Anh thêm 15 phút', 2),
+      task('💡', 'Học một điều mới và kể lại cho bố mẹ', 3),
+      task('❤️', 'Tự làm một việc tốt mà không cần bố mẹ nhắc', 5),
+    ],
+  };
+
+  const state = {
+    kid: 0,
+    kids: ['Bé 1', 'Bé 2'],
+    week: 0,
+    stars: new Set(),
+    redeemed: [0, 0],
+    notes: {},
+    newEmoji: { must: '⭐', opt: '🎨' },
+    popped: null,
+  };
+  const starKey = (kid, week, id, day) => `${kid}|${week}|${id}|${day}`;
+  state.stars.add(starKey(0, 0, lists.must[0].id, 0));
+  state.stars.add(starKey(0, 0, lists.opt[8].id, 0));
+  state.stars.add(starKey(0, 0, lists.opt[8].id, 1));
+
+  const $ = (sel) => document.querySelector(sel);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+  const starSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#star"/></svg>';
+  const allTasks = () => [...lists.must, ...lists.opt];
+  const isStarred = (kid, week, id, day) => state.stars.has(starKey(kid, week, id, day));
+
+  function dayPoints(kid, week, day, tasks = allTasks()) {
+    return tasks.reduce((sum, t) => sum + (isStarred(kid, week, t.id, day) ? t.pts : 0), 0);
+  }
+  function dayDone(kid, week, day) {
+    return lists.must.length > 0 && lists.must.every((t) => isStarred(kid, week, t.id, day));
+  }
+  function weekPoints(kid, week) {
+    let sum = 0;
+    for (let d = 0; d < 7; d++) sum += dayPoints(kid, week, d);
+    const fullWeek = DAYS.every((_, d) => dayDone(kid, week, d));
+    return sum + (fullWeek ? STREAK_BONUS : 0);
+  }
+  function totalPoints(kid) {
+    const weeks = new Set();
+    for (const key of state.stars) {
+      const [k, w] = key.split('|');
+      if (+k === kid) weeks.add(+w);
+    }
+    let sum = 0;
+    for (const w of weeks) sum += weekPoints(kid, w);
+    return sum;
+  }
+
+  function weekLabel(offset) {
+    const start = new Date(TODAY);
+    start.setDate(start.getDate() - TODAY_INDEX + offset * 7);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 6);
+    return `${start.getDate()}/${start.getMonth() + 1} – ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}`;
+  }
+
+  function renderTable(type) {
+    const { kid, week } = state;
+    const tasks = lists[type];
+    const isMust = type === 'must';
+    const todayCol = week === 0 ? TODAY_INDEX : -1;
+    const head = `<tr>
+      <th class="name" scope="col"><span class="sec-title">⭐ ${isMust ? 'Must-Do Tasks' : 'Optional Tasks'}</span>
+        <span class="sec-sub">${isMust ? '(Bắt buộc)' : '(Tự chọn)'}</span></th>
+      <th class="pt" scope="col">Point</th>
+      ${DAYS.map(([en, vi], d) => `<th scope="col" class="day${d === todayCol ? ' today' : ''}">${en}<small>${vi}</small></th>`).join('')}
+      <th class="total" scope="col">Total<small>Điểm</small></th></tr>`;
+    const rows = tasks.map((t) => {
+      let rowTotal = 0;
+      const cells = DAYS.map((_, d) => {
+        const on = isStarred(kid, week, t.id, d);
+        if (on) rowTotal += t.pts;
+        const pop = state.popped === starKey(kid, week, t.id, d) ? ' pop' : '';
+        return `<td class="day d${d + 1}"><button type="button" class="star${pop}" data-star="${t.id}" data-day="${d}"
+          aria-pressed="${on}" aria-label="${esc(t.name)}, ${DAYS[d][1]}">${starSvg}</button></td>`;
+      }).join('');
+      return `<tr><td class="name"><div class="name-inner"><span class="emoji">${esc(t.emoji)}</span>
+        <span class="label">${esc(t.name)}</span>
+        <button type="button" class="del" data-del="${type}:${t.id}" aria-label="Xoá ${esc(t.name)}">×</button></div></td>
+        <td class="pt">+${t.pts}</td>${cells}<td class="total">${rowTotal || ''}</td></tr>`;
+    }).join('');
+    let sum = 0;
+    const foot = DAYS.map((_, d) => {
+      const p = dayPoints(kid, week, d, tasks);
+      sum += p;
+      return `<td class="day d${d + 1}">${p || '–'}</td>`;
+    }).join('');
+    $(`[data-table="${type}"]`).innerHTML = `
+      <colgroup><col class="c-name"><col class="c-pt">${'<col>'.repeat(7)}<col class="c-total"></colgroup>
+      <thead>${head}</thead><tbody>${rows}</tbody>
+      <tfoot><tr><th class="name" scope="row">Tổng điểm theo ngày</th><td></td>${foot}<td class="total">${sum}</td></tr></tfoot>`;
+  }
+
+  function render() {
+    const { kid, week } = state;
+    const total = totalPoints(kid);
+    const left = total - state.redeemed[kid];
+    const name = state.kids[kid];
+
+    $('#kids').innerHTML = state.kids.map((n, i) =>
+      `<button type="button" class="kid" data-kid="${i}" aria-pressed="${i === kid}">${esc(n)}</button>`).join('');
+    $('#week-label').textContent = weekLabel(week);
+
+    $('#pts-today').textContent = dayPoints(kid, 0, TODAY_INDEX);
+    $('#pts-week').textContent = weekPoints(kid, 0);
+    $('#pts-total').textContent = total;
+    $('#pts-left').textContent = left;
+
+    renderTable('must');
+    renderTable('opt');
+    document.querySelectorAll('[data-emoji]').forEach((b) => { b.textContent = state.newEmoji[b.dataset.emoji]; });
+
+    $('#rewards-left').textContent = `Còn ${left} điểm`;
+    $('#rewards').innerHTML = REWARDS.map((r) => {
+      const need = r.cost - left;
+      const action = need > 0
+        ? `<button type="button" disabled>Cần thêm ${need} điểm</button>`
+        : `<button type="button" data-redeem="${r.cost}">Đổi ngay</button>`;
+      return `<article class="reward"><div class="cost">${r.cost} ${starSvg}</div>
+        <span class="emoji" aria-hidden="true">${r.emoji}</span><p>${esc(r.text)}</p>${action}</article>`;
+    }).join('');
+
+    const lv = LEVELS.reduce((idx, l, i) => (total >= l.min ? i : idx), 0);
+    $('#track').innerHTML = LEVELS.map((l, i) => {
+      const cls = i === lv ? 'current' : i < lv ? 'reached' : '';
+      const arrow = i < LEVELS.length - 1 ? '<span class="arrow" aria-hidden="true">→</span>' : '';
+      return `<div class="level ${cls}"><span class="e" aria-hidden="true">${l.emoji}</span><b>Level ${i + 1}</b>
+        <small>${l.name}<br>(${l.range})</small></div>${arrow}`;
+    }).join('');
+    const next = LEVELS[lv + 1];
+    const progress = next ? (total - LEVELS[lv].min) / (next.min - LEVELS[lv].min) : 1;
+    $('#bar').style.width = `${Math.round(progress * 100)}%`;
+    $('#level-text').textContent = next
+      ? `${name} có ${total} điểm. Còn ${next.min - total} điểm nữa để lên Level ${lv + 2} (${next.name}).`
+      : `${name} có ${total} điểm. Đã đạt level cao nhất!`;
+
+    const done = DAYS.map((_, d) => dayDone(kid, week, d));
+    $('#streak-chips').innerHTML = DAYS.map(([, vi], d) => `<span class="${done[d] ? 'done' : ''}">${vi}</span>`).join('');
+    $('#streak-text').textContent = `${done.filter(Boolean).length}/7 ngày đã xong hết việc bắt buộc.`;
+
+    $('#notes').value = state.notes[`${kid}|${week}`] || '';
+  }
+
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('button');
+    if (!el) return;
+    const { kid, week } = state;
+    if (el.dataset.star) {
+      const key = starKey(kid, week, +el.dataset.star, +el.dataset.day);
+      if (state.stars.has(key)) {
+        state.stars.delete(key);
+        state.popped = null;
+      } else {
+        state.stars.add(key);
+        state.popped = key;
+      }
+      render();
+      $(`[data-star="${el.dataset.star}"][data-day="${el.dataset.day}"]`).focus();
+    } else if (el.dataset.kid) {
+      state.kid = +el.dataset.kid;
+      render();
+    } else if (el.dataset.week) {
+      state.week += +el.dataset.week;
+      render();
+    } else if (el.dataset.redeem) {
+      const cost = +el.dataset.redeem;
+      if (confirm(`Đổi phần thưởng ${cost} ⭐ cho ${state.kids[kid]}?`)) {
+        state.redeemed[kid] += cost;
+        render();
+      }
+    } else if (el.dataset.del) {
+      const [type, id] = el.dataset.del.split(':');
+      lists[type] = lists[type].filter((t) => t.id !== +id);
+      for (const key of [...state.stars]) if (key.split('|')[2] === id) state.stars.delete(key);
+      render();
+    } else if (el.dataset.emoji) {
+      const type = el.dataset.emoji;
+      state.newEmoji[type] = EMOJIS[(EMOJIS.indexOf(state.newEmoji[type]) + 1) % EMOJIS.length];
+      el.textContent = state.newEmoji[type];
+    } else if (el.id === 'edit') {
+      const on = document.body.classList.toggle('editing');
+      el.setAttribute('aria-pressed', on);
+    }
+  });
+
+  document.addEventListener('submit', (e) => {
+    const form = e.target.closest('[data-add]');
+    if (!form) return;
+    e.preventDefault();
+    const type = form.dataset.add;
+    const name = form.elements.name.value.trim();
+    const pts = Math.min(10, Math.max(1, Math.round(+form.elements.pts.value || 2)));
+    if (!name) return;
+    lists[type].push(task(state.newEmoji[type], name, pts));
+    form.elements.name.value = '';
+    render();
+    form.elements.name.focus();
+  });
+
+  document.addEventListener('input', (e) => {
+    if (e.target.id === 'notes') {
+      state.notes[`${state.kid}|${state.week}`] = e.target.value;
+    } else if (e.target.dataset.kidName) {
+      state.kids[+e.target.dataset.kidName] = e.target.value.trim() || `Bé ${+e.target.dataset.kidName + 1}`;
+      render();
+    }
+  });
+
+  const darkQuery = matchMedia('(prefers-color-scheme: dark)');
+  const applyTheme = () => {
+    const pick = $('#theme').value;
+    document.documentElement.dataset.theme = pick === 'auto' ? (darkQuery.matches ? 'dark' : 'light') : pick;
+  };
+  $('#theme').addEventListener('change', applyTheme);
+  darkQuery.addEventListener('change', applyTheme);
+
+  document.querySelectorAll('[data-kid-name]').forEach((input) => { input.value = state.kids[+input.dataset.kidName]; });
+  render();
+</script>
+</body>
+</html>
