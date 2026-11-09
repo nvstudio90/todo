@@ -191,14 +191,16 @@ Nhìn từ mẫu, có hai họ font, cả hai đều hỗ trợ tiếng Việt:
 - Ghi chú riêng từng bé. Gợi ý: "Ghi chú của bố mẹ cho {tên bé} tuần này..."
 
 ### 5.12 Nút phụ
-- "Sửa danh sách việc": nền `surface`, viền `border`, góc `radiusMd`, chữ `labelLarge`.
+- "Sửa danh sách việc": nền `surface`, viền `border`, góc `radiusMd`, chữ `labelLarge`. Bấm thì mở `PinDialog` trước (mục 5.13).
 
 ### 5.13 Nhập mã PIN (`PinDialog`)
+- Dùng khi đổi thưởng và khi mở màn Sửa danh sách.
 - Dialog `surface`, góc `radiusXl`, rộng theo "Rộng tối đa của sheet và dialog" ở [mục 6.4](#64-thông-số-theo-nhóm).
 - Tiêu đề "Nhập mã PIN của bố mẹ" (`titleMedium`). Bốn ô số 48×56, góc `radiusSm`, nền `surfaceInset`; ô đã nhập hiện "●".
 - Dùng bàn phím số của hệ thống. Điện thoại ngang: dialog cuộn được để bàn phím không che ô và nút.
 - Sai PIN: các ô rung ngang và xoá trắng, dòng lỗi màu `error` của `ColorScheme`.
 - Tạo PIN: hai bước "Đặt mã PIN" rồi "Nhập lại mã PIN", không khớp thì quay lại bước đầu.
+- Dưới các ô có nút chữ "Quên mã PIN?" (`labelLarge`, màu `primary`). Bấm thì hỏi "13 × 17 bằng bao nhiêu?" (hai số ngẫu nhiên 11–19) với một ô nhập số. Sai thì đổi câu khác, đúng thì sang bước tạo PIN mới.
 
 ### 5.14 Quản lý bé và xác nhận xoá
 - Form thêm/đổi tên bé: một ô tên, bắt buộc. Nút **Thêm**/**Lưu** khoá khi tên trống sau khi bỏ khoảng trắng.
@@ -316,6 +318,6 @@ Chữ của việc, phần thưởng, level mặc định xem [app-plan.md, mụ
 | Ghi chú | Notes · Parent notes for {name} this week... | Ghi chú · Ghi chú của bố mẹ cho {name} tuần này... |
 | Banner | Data is stored on this device. | Dữ liệu được lưu trên máy này. |
 | Nút sửa | Edit lists | Sửa danh sách |
-| PIN | Enter parent PIN · Set a PIN · Enter the PIN again · Wrong PIN | Nhập mã PIN của bố mẹ · Đặt mã PIN · Nhập lại mã PIN · Sai mã PIN |
+| PIN | Enter parent PIN · Set a PIN · Enter the PIN again · Wrong PIN · Forgot PIN? · What is {a} × {b}? | Nhập mã PIN của bố mẹ · Đặt mã PIN · Nhập lại mã PIN · Sai mã PIN · Quên mã PIN? · {a} × {b} bằng bao nhiêu? |
 | Bé | Add kid · Kid's name · Delete {name}? | Thêm bé · Tên bé · Xoá {name}? |
 | Nút chung | Add · Save · Cancel · Delete | Thêm · Lưu · Huỷ · Xoá |

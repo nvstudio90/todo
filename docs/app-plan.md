@@ -29,8 +29,8 @@ Chi tiết giao diện xem ở [design-system.md](design-system.md).
 | F9 | Level | 4 level tính theo **tổng đã tích** (đổi thưởng không làm tụt level), có thanh tiến độ và câu "Còn X điểm nữa để lên Level N". |
 | F10 | Streak bonus | Làm hết việc bắt buộc đủ 7/7 ngày **trong cùng một tuần T2–CN** thì được +10 điểm, không tính nối tiếp xuyên tuần. Hiển thị chip T2…CN và tiến độ "x/7". |
 | F11 | Ghi chú tuần | Ô ghi chú của bố mẹ cho **từng bé**, từng tuần. |
-| F12 | Sửa danh sách | Thêm/sửa/xoá việc (emoji, tên, điểm) và phần thưởng; thêm, đổi tên, xoá bé; đổi mã PIN. |
-| F13 | Mã PIN bố mẹ | Mã 4 số để xác nhận đổi thưởng. Tạo ở lần đổi thưởng đầu tiên (nhập 2 lần). Đổi PIN phải nhập PIN cũ. |
+| F12 | Sửa danh sách | Thêm/sửa/xoá việc (emoji, tên, điểm) và phần thưởng; thêm, đổi tên, xoá bé; đổi mã PIN. **Phải nhập PIN mới mở được.** |
+| F13 | Mã PIN bố mẹ | Mã 4 số, cần khi **đổi thưởng** và khi **mở màn Sửa danh sách**. Tạo ở lần đầu cần dùng (nhập 2 lần). Quên PIN thì giải một phép nhân để đặt PIN mới. |
 | F14 | Ngôn ngữ | Toàn bộ giao diện theo ngôn ngữ chọn trong app (Theo hệ thống / English / Tiếng Việt): tiếng Việt thì **toàn bộ** là tiếng Việt, English thì **toàn bộ** là tiếng Anh, không xen kẽ như mẫu. Dữ liệu mặc định (tên bé, việc, phần thưởng, tên level) cũng đổi theo. |
 
 ## 3. Luật tính điểm
@@ -140,11 +140,12 @@ Khi gập hoặc mở máy, app chuyển giữa Tab và Dashboard mà vẫn gi�
 
 ### 5.3 Màn phụ (mọi thiết bị)
 
-- **Sửa danh sách** (mở từ nút ✏️ trên header): hai tab Bắt buộc / Tự chọn, kéo để sắp xếp, thêm/sửa/xoá việc. Có thêm mục Phần thưởng, mục Các bé và mục Mã PIN.
+- **Sửa danh sách** (mở từ nút ✏️ trên header, phải nhập PIN; rời màn thì khoá lại): hai tab Bắt buộc / Tự chọn, kéo để sắp xếp, thêm/sửa/xoá việc. Có thêm mục Phần thưởng, mục Các bé và mục Mã PIN.
   - Form thêm/sửa việc (chọn emoji, tên, điểm) mở dạng bottom sheet trên `compact`, dạng dialog rộng tối đa 480–560 từ `medium` trở lên.
   - **Các bé**: danh sách bé, kéo để sắp xếp. Thêm bé mở form có ô tên bắt buộc, nút **Thêm** khoá khi tên trống. Bấm vào bé để đổi tên. Khi chỉ còn 1 bé thì không có nút xoá.
-  - **Mã PIN**: đổi PIN (nhập PIN cũ, rồi PIN mới 2 lần).
+  - **Mã PIN**: đổi PIN (nhập PIN mới 2 lần; không hỏi PIN cũ vì đã nhập lúc mở màn).
 - **Xác nhận đổi thưởng**: dialog "Đổi 20 ⭐ lấy 'Chọn món tráng miệng yêu thích'?", rồi bố mẹ nhập PIN 4 số. Sai PIN thì báo lỗi và cho nhập lại; đúng thì trừ điểm và bắn confetti. Chưa có PIN thì bước này là tạo PIN (nhập 2 lần).
+- **Quên mã PIN**: nút "Quên mã PIN?" trong dialog nhập PIN. Hỏi phép nhân hai số ngẫu nhiên từ 11 đến 19 (ví dụ 13 × 17); sai thì đổi câu khác, đúng thì cho đặt PIN mới (nhập 2 lần).
 - **Xác nhận xoá bé**: dialog "Xoá Bé 1?" nói rõ sẽ mất hết sao, điểm, lịch sử đổi thưởng và ghi chú của bé, không khôi phục được. Hai nút **Huỷ** và **Xoá**.
 
 ## 6. Kiến trúc
@@ -243,18 +244,18 @@ test/
 
 ### Giai đoạn 4: Đổi thưởng và Thành tích
 - [ ] Lưới phần thưởng, trạng thái "Cần thêm X điểm" và "Đổi ngay"
-- [ ] Mã PIN 4 số: tạo (nhập 2 lần), kiểm tra, lưu hash
+- [ ] Mã PIN 4 số: tạo (nhập 2 lần), kiểm tra, lưu hash, quên PIN (phép nhân)
 - [ ] Dialog xác nhận, nhập PIN, trừ điểm, confetti, lịch sử đổi
 - [ ] Level và thanh tiến độ
 - [ ] Streak card và chip ngày
 - [ ] Ghi chú tuần theo từng bé (tự lưu khi gõ, debounce)
 
 ### Giai đoạn 5: Sửa danh sách
+- [ ] Khoá màn Sửa danh sách bằng PIN, rời màn thì khoá lại
 - [ ] Thêm/sửa/xoá (ẩn) việc, chọn emoji, kéo để sắp xếp
 - [ ] Thêm/sửa/xoá phần thưởng
 - [ ] Các bé: thêm (bắt buộc nhập tên), đổi tên, sắp xếp, xoá (popup xác nhận, không xoá được bé cuối cùng)
-- [ ] Đổi mã PIN (nhập PIN cũ)
-- [ ] (Tuỳ chọn) Dùng PIN khoá luôn màn Sửa danh sách
+- [ ] Đổi mã PIN
 
 ### Giai đoạn 6: Hoàn thiện và phát hành
 - [ ] Kiểm tra layout trên đủ các cấu hình ở design-system mục 6.6 (phone, máy gập, tablet 7"/9"/10"+), cả dọc và ngang
@@ -284,13 +285,15 @@ test/
 | 5 | Số bé cố định 2 hay thêm/bớt được? | Thay đổi được ngay từ MVP: thêm bé (bắt buộc nhập tên), đổi tên, xoá bé (có popup xác nhận). |
 | 6 | Đổi thưởng có làm tụt level không? | Không. |
 | 7 | Ngôn ngữ giao diện? | Theo ngôn ngữ chọn trong app: tiếng Việt thì toàn bộ tiếng Việt, English thì toàn bộ tiếng Anh. |
+| 8 | Quên mã PIN thì làm sao? | Nút "Quên mã PIN?" hỏi một phép nhân hai số có hai chữ số, đúng thì cho đặt PIN mới. |
+| 9 | Có khoá màn Sửa danh sách bằng PIN không? | Có. |
 
 Chi tiết tự chọn khi áp dụng các quyết định trên (đổi được nếu không hợp):
 - Luôn còn ít nhất 1 bé. Xoá bé là xoá hẳn dữ liệu của bé, không ẩn.
-- PIN tạo ở lần đổi thưởng đầu tiên. Đổi PIN phải nhập PIN cũ.
+- PIN tạo ở lần đầu cần dùng. Màn Sửa danh sách mở bằng PIN, rời màn thì khoá lại; đổi PIN trong màn này không hỏi lại PIN cũ.
+- Phép nhân khi quên PIN: hai số ngẫu nhiên từ 11 đến 19, sai thì đổi câu khác.
 - Dữ liệu mặc định đổi theo ngôn ngữ cho tới khi bố mẹ tự sửa chữ.
 
 ## 10. Câu hỏi còn mở
 
-1. Quên mã PIN thì làm sao? Đề xuất: nút "Quên mã PIN?" hỏi một phép nhân hai chữ số (bố mẹ làm được, bé nhỏ khó đoán), đúng thì cho đặt PIN mới.
-2. Có dùng PIN khoá luôn màn **Sửa danh sách** không? Nếu không, bé có thể tự sửa điểm của việc hoặc xoá bé khác.
+Chưa có.
