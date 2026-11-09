@@ -14,7 +14,7 @@ Tài liệu này mô tả giao diện app, lấy theo mẫu thiết kế
 - **Màu pastel theo từng ngày:** mỗi cột ngày (T2 → CN) có một màu nền nhạt riêng, tạo hiệu ứng cầu vồng.
 - **Phân vùng bằng màu:** việc **bắt buộc** dùng màu hồng, việc **tự chọn** màu xanh lá, **điểm** màu vàng, **level/streak** màu tím.
 - **Hai chế độ sáng và tối**, chạy theo cài đặt của máy.
-- **Chữ tiếng Việt và tiếng Anh xen kẽ** như trong mẫu, ví dụ "Must-Do Tasks (Bắt buộc)", "My Points Today".
+- **Một ngôn ngữ cho toàn bộ giao diện**, theo ngôn ngữ chọn trong app. Mẫu xen kẽ Anh và Việt ("Must-Do Tasks (Bắt buộc)"), app thì không: chữ tiếng Việt và tiếng Anh tách thành hai bộ, xem [mục 8](#8-bảng-chữ-en--vi). Ví dụ chữ trong các mục dưới là lấy từ mẫu.
 
 ## 2. Màu sắc
 
@@ -50,7 +50,9 @@ Tài liệu này mô tả giao diện app, lấy theo mẫu thiết kế
 | "-" | `#3FA36B` | `#4CB87D` |
 | "Do" | `#3A7BE0` | `#4A84E6` |
 
-Dấu "•" giữa "Be kind • Try your best • Have fun!" dùng màu hồng `#D04070`.
+Tiêu đề tiếng Việt "Bảng việc của bé" tô theo từng chữ, cùng bộ màu trên: "Bảng" tím, "việc" cam, "của" xanh lá, "bé" xanh dương.
+
+Dấu "•" giữa các ý của slogan ("Be kind • Try your best • Have fun!") dùng màu hồng `#D04070`, ở cả hai ngôn ngữ.
 
 ### 2.3 Màu theo khu vực
 
@@ -130,21 +132,22 @@ Nhìn từ mẫu, có hai họ font, cả hai đều hỗ trợ tiếng Việt:
 
 ### 5.1 Header
 - Thẻ `surface`, góc `radiusXl`.
-- Gồm: tiêu đề nhiều màu, dòng slogan "Be kind • Try your best • Have fun!", nhóm chip chọn bé và bộ chuyển tuần `‹ 9/11 – 15/11/2026 ›`.
+- Gồm: tiêu đề nhiều màu, dòng slogan, nhóm chip chọn bé và bộ chuyển tuần `‹ 9/11 – 15/11/2026 ›`.
 - Điện thoại dọc: bộ chuyển tuần xuống một dòng riêng dưới chip chọn bé. Điện thoại ngang: gom lại thành một dòng (xem [mục 6.3](#63-ma-trận-bố-cục)).
 
 ### 5.2 Chip chọn bé (`KidChip`)
 - Hình viên thuốc, cao 40, padding ngang 20, font `labelLarge`.
 - Đang chọn: nền `primary`, chữ `onPrimary`.
 - Chưa chọn: nền `primarySoft` nhạt (sáng `#F6F4FF`, tối `#10131B`), viền 1px `border`, chữ `textPrimary`.
+- Số bé thay đổi được: nhóm chip nằm trên một dòng, cuộn ngang khi không đủ chỗ, chip đang chọn luôn được cuộn vào tầm nhìn. Tên dài cắt bằng "…", chip rộng tối đa 160.
 
 ### 5.3 Bộ chuyển tuần (`WeekSwitcher`)
 - Hai nút vuông 32×32 (`‹`, `›`), nền `surface`, viền `border`, góc `radiusMd`.
-- Ở giữa là khoảng ngày `d/M – d/M/yyyy`, font `labelLarge`.
+- Ở giữa là khoảng ngày, font `labelLarge`, định dạng theo ngôn ngữ app qua `intl`: vi `9/11 – 15/11/2026`, en `Nov 9 – 15, 2026`.
 
 ### 5.4 Thẻ điểm (`PointsCard`)
 - Nền `pointsBg`, góc `radiusXl`.
-- Tiêu đề "My Points Today", sau đó là ⭐ và số điểm lớn (`displayNumber`).
+- Tiêu đề "Điểm hôm nay" / "My Points Today", sau đó là ⭐ và số điểm lớn (`displayNumber`).
 - Ba dòng nhãn và giá trị: **Tuần này**, **Tổng đã tích**, **Còn lại để đổi** (giá trị căn phải, đậm).
 
 ### 5.5 Banner thông tin
@@ -152,8 +155,8 @@ Nhìn từ mẫu, có hai họ font, cả hai đều hỗ trợ tiếng Việt:
 - Mẫu: "Bản offline: dữ liệu chỉ lưu trong trình duyệt trên máy này." Trong app nên đổi thành "Dữ liệu được lưu trên máy này."
 
 ### 5.6 Bảng việc (`TaskSection`), dạng tuần
-- Thẻ có viền màu khu vực. Header có nền màu khu vực, gồm ⭐ + tiêu đề `titleLarge` màu khu vực và phụ đề "(Bắt buộc)" / "(Tự chọn)" cỡ nhỏ hơn.
-- Các cột: **Tên việc** (emoji + chữ) | **Point** (nền màu khu vực, "+2" đậm màu khu vực) | **T2 … CN** (mỗi cột một màu pastel, ô có ngôi sao) | **Total Điểm**.
+- Thẻ có viền màu khu vực. Header có nền màu khu vực, gồm ⭐ + tiêu đề `titleLarge` màu khu vực. Không có phụ đề dịch kiểu "(Bắt buộc)" như mẫu.
+- Các cột: **Tên việc** (emoji + chữ) | **Điểm** (nền màu khu vực, "+2" đậm màu khu vực) | **T2 … CN** (mỗi cột một màu pastel, ô có ngôi sao) | **Tổng**.
 - Dòng cuối "Tổng điểm theo ngày": tổng điểm từng ngày, ngày chưa có điểm hiện "–".
 - Chế độ sửa: mỗi dòng có thêm nút `×` để xoá. Cuối bảng có dòng thêm việc: [nút chọn emoji] [ô "Thêm việc tự chọn..."] [ô điểm, mặc định 2] [nút **Thêm** màu khu vực].
 
@@ -161,6 +164,7 @@ Nhìn từ mẫu, có hai họ font, cả hai đều hỗ trợ tiếng Việt:
 - Chưa đánh dấu: ngôi sao rỗng, viền 1.5px `starEmpty`, cỡ 22.
 - Đã đánh dấu: ngôi sao đặc `star`, cỡ 24.
 - Khi bấm: phóng to 1 → 1.3 → 1 (khoảng 250ms, `Curves.easeOutBack`), rung nhẹ (haptic light), hiện "+2" bay lên rồi mờ dần. Cộng điểm có hiệu ứng số chạy.
+- Ngày tương lai: ngôi sao rỗng mờ 40%, không bấm được, không rung. Trình đọc màn hình báo "chưa tới ngày".
 
 ### 5.8 Thẻ phần thưởng (`RewardCard`)
 - Nền `surface`, góc `radiusLg`, padding 12.
@@ -168,26 +172,38 @@ Nhìn từ mẫu, có hai họ font, cả hai đều hỗ trợ tiếng Việt:
 - Mô tả: `bodyMedium`, `textSecondary`.
 - Nút dưới cùng (rộng hết thẻ, nền `surfaceInset`, góc `radiusMd`):
   - Chưa đủ điểm: "Cần thêm X điểm", chữ `textMuted`, không bấm được.
-  - Đủ điểm: "Đổi ngay" (mẫu chưa có trạng thái này), nền `rewardText`, chữ trắng.
+  - Đủ điểm: "Đổi ngay" (mẫu chưa có trạng thái này), nền `rewardText`, chữ trắng. Bấm thì mở dialog xác nhận rồi `PinDialog` (mục 5.13).
 - Header khu đổi thưởng: "🎁 Đổi thưởng" và bên phải "Còn X điểm".
 
 ### 5.9 Level (`LevelTrack`)
-- Bốn ô level nối với nhau bằng mũi tên "→": emoji (🌱 🌿 🪴 🌳), "Level N" đậm, tên tiếng Anh, khoảng điểm.
+- Bốn ô level nối với nhau bằng mũi tên "→": emoji (🌱 🌿 🪴 🌳), "Level N" / "Cấp N" đậm, tên level theo ngôn ngữ app, khoảng điểm.
 - Level hiện tại có nền `primarySoft` và chữ `textPrimary`. Level chưa đạt dùng chữ `textMuted`.
 - Bên dưới là thanh tiến độ cao 8, nền `primarySoft`, phần đã đạt màu `primary`, bo tròn.
 - Dòng mô tả: "Bé 1 có 12 điểm. Còn 38 điểm nữa để lên Level 2 (Super Helper)."
 
 ### 5.10 Streak (`StreakCard`)
-- Nền `streakBg`. Tiêu đề "🔥 Streak Bonus" và mô tả "Hoàn thành các task bắt buộc 7 ngày liên tiếp trong tuần → **+10 điểm!**"
+- Nền `streakBg`. Tiêu đề "🔥 Thưởng chuỗi 7 ngày" và mô tả "Làm hết việc bắt buộc cả 7 ngày từ T2 đến CN → **+10 điểm!**"
 - Bảy chip ngày T2…CN (nền `surface`, góc `radiusSm`). Ngày đã làm hết việc bắt buộc có nền `primary` và chữ trắng.
 - Dòng tiến độ "0/7 ngày đã xong hết việc bắt buộc.", màu `streakText`, đậm.
 
 ### 5.11 Ghi chú (`NotesCard`)
-- Nền `notesBg`. Tiêu đề "✏️ Notes", ô nhập nhiều dòng có kẻ dòng như giấy vở (đường kẻ 1px, mờ 15%).
-- Gợi ý: "Ghi chú của bố mẹ cho tuần này..."
+- Nền `notesBg`. Tiêu đề "✏️ Ghi chú", ô nhập nhiều dòng có kẻ dòng như giấy vở (đường kẻ 1px, mờ 15%).
+- Ghi chú riêng từng bé. Gợi ý: "Ghi chú của bố mẹ cho {tên bé} tuần này..."
 
 ### 5.12 Nút phụ
 - "Sửa danh sách việc": nền `surface`, viền `border`, góc `radiusMd`, chữ `labelLarge`.
+
+### 5.13 Nhập mã PIN (`PinDialog`)
+- Dialog `surface`, góc `radiusXl`, rộng theo "Rộng tối đa của sheet và dialog" ở [mục 6.4](#64-thông-số-theo-nhóm).
+- Tiêu đề "Nhập mã PIN của bố mẹ" (`titleMedium`). Bốn ô số 48×56, góc `radiusSm`, nền `surfaceInset`; ô đã nhập hiện "●".
+- Dùng bàn phím số của hệ thống. Điện thoại ngang: dialog cuộn được để bàn phím không che ô và nút.
+- Sai PIN: các ô rung ngang và xoá trắng, dòng lỗi màu `error` của `ColorScheme`.
+- Tạo PIN: hai bước "Đặt mã PIN" rồi "Nhập lại mã PIN", không khớp thì quay lại bước đầu.
+
+### 5.14 Quản lý bé và xác nhận xoá
+- Form thêm/đổi tên bé: một ô tên, bắt buộc. Nút **Thêm**/**Lưu** khoá khi tên trống sau khi bỏ khoảng trắng.
+- Dialog xoá: tiêu đề "Xoá {tên bé}?", nội dung nói rõ sẽ mất sao, điểm, lịch sử đổi thưởng, ghi chú và không khôi phục được. Nút **Huỷ** (viền) và **Xoá** (nền `error`).
+- Khi chỉ còn 1 bé thì ẩn nút xoá.
 
 ## 6. Bố cục theo thiết bị
 
@@ -248,6 +264,7 @@ Các cỡ chữ còn lại giữ nguyên như bảng ở mục 3, cho mọi nhó
 - Tôn trọng `SafeArea` và tai thỏ.
 - Bảng tuần: cột tên việc cố định khi cuộn ngang. Nếu đủ chỗ thì không cuộn, phần thừa chia đều cho các cột ngày.
 - Tên việc hiển thị tối đa 2 dòng, quá thì cắt bằng dấu "…". Không để xảy ra lỗi overflow.
+- Độ dài chữ khác nhau giữa hai ngôn ngữ ("Mon" rộng hơn "T2", "Còn lại để đổi" dài hơn "Left to spend"): không chốt kích thước theo chữ của một ngôn ngữ.
 
 ### 6.6 Cấu hình cần kiểm tra
 
@@ -263,6 +280,7 @@ Theo CLAUDE.md, trước khi báo xong một màn hình phải kiểm tra ít nh
 | Tablet từ 10" | iPad Pro 13-inch (M5) | `1600x2560` / `320` | 800 × 1280 |
 
 Với máy gập, cần thử thêm việc gập/mở khi đang dùng app (đổi `wm size` giữa chừng): trạng thái đang xem không được mất.
+Mỗi cấu hình kiểm ở cả tiếng Việt và tiếng Anh.
 Đổi lại kích thước thật của emulator: `adb shell wm size reset` và `adb shell wm density reset`.
 
 ## 7. Ánh xạ sang Flutter
@@ -274,3 +292,30 @@ Với máy gập, cần thử thêm việc gập/mở khi đang dùng app (đổ
 - Emoji: dùng emoji hệ thống (`Text('🛏️')`). Nếu muốn giống nhau trên iOS và Android, cân nhắc gói font Noto Color Emoji.
 - Nhóm thiết bị và thông số bố cục: `LayoutClass` và `LayoutConfig` (mục 6), lấy qua `LayoutConfig.of(context)`.
 - Vị trí đề xuất: `lib/core/theme/app_theme.dart`, `app_colors.dart`, `app_typography.dart`, `app_spacing.dart`. Bố cục đặt trong `lib/core/layout/breakpoints.dart` và `layout_config.dart`.
+
+## 8. Bảng chữ (en / vi)
+
+Các nhãn chính của giao diện ở hai ngôn ngữ, dùng làm nguồn khi viết ARB.
+Chữ của việc, phần thưởng, level mặc định xem [app-plan.md, mục 4](app-plan.md#4-dữ-liệu-mặc-định-lấy-từ-mẫu).
+
+| Chỗ | English | Tiếng Việt |
+|---|---|---|
+| Tiêu đề | My To-Do List | Bảng việc của bé |
+| Slogan | Be kind • Try your best • Have fun! | Tử tế • Cố gắng • Vui vẻ! |
+| Tab | Today · This Week · Rewards · Progress | Hôm nay · Cả tuần · Đổi thưởng · Thành tích |
+| Ngày trong tuần | Mon Tue Wed Thu Fri Sat Sun | T2 T3 T4 T5 T6 T7 CN |
+| Việc bắt buộc | Must-Do Tasks | Việc bắt buộc |
+| Việc tự chọn | Optional Tasks | Việc tự chọn |
+| Cột điểm / cột tổng | Points / Total | Điểm / Tổng |
+| Dòng cuối bảng | Daily total | Tổng điểm theo ngày |
+| Thẻ điểm | My Points Today · This week · Total earned · Left to spend | Điểm hôm nay · Tuần này · Tổng đã tích · Còn lại để đổi |
+| Đổi thưởng | Rewards · {n} points left · Need {n} more · Redeem | Đổi thưởng · Còn {n} điểm · Cần thêm {n} điểm · Đổi ngay |
+| Xác nhận đổi | Spend {cost} ⭐ on "{reward}"? | Đổi {cost} ⭐ lấy "{reward}"? |
+| Level | My Levels · Level {k} · {name} has {n} points. {m} more to reach Level {k} ({level}). | Cấp độ · Cấp {k} · {name} có {n} điểm. Còn {m} điểm nữa để lên Cấp {k} ({level}). |
+| Streak | 7-Day Streak Bonus · Finish all must-do tasks every day from Mon to Sun → +10 points! · {x}/7 days done | Thưởng chuỗi 7 ngày · Làm hết việc bắt buộc cả 7 ngày từ T2 đến CN → +10 điểm! · {x}/7 ngày đã xong hết việc bắt buộc |
+| Ghi chú | Notes · Parent notes for {name} this week... | Ghi chú · Ghi chú của bố mẹ cho {name} tuần này... |
+| Banner | Data is stored on this device. | Dữ liệu được lưu trên máy này. |
+| Nút sửa | Edit lists | Sửa danh sách |
+| PIN | Enter parent PIN · Set a PIN · Enter the PIN again · Wrong PIN | Nhập mã PIN của bố mẹ · Đặt mã PIN · Nhập lại mã PIN · Sai mã PIN |
+| Bé | Add kid · Kid's name · Delete {name}? | Thêm bé · Tên bé · Xoá {name}? |
+| Nút chung | Add · Save · Cancel · Delete | Thêm · Lưu · Huỷ · Xoá |
