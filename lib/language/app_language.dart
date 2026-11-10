@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum AppLanguage {
@@ -44,3 +45,8 @@ class AppLanguageController extends ValueNotifier<AppLanguage> {
     }
   }
 }
+
+/// Loaded before runApp and injected with an override.
+final appLanguageControllerProvider = Provider<AppLanguageController>(
+  (ref) => throw UnimplementedError('Override with a loaded controller'),
+);

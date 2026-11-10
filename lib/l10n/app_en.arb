@@ -1,9 +1,229 @@
 {
   "@@locale": "en",
-  "appTitle": "Flutter Demo",
-  "homePageTitle": "Flutter Demo Home Page",
-  "counterLabel": "You have pushed the button this many times:",
-  "incrementTooltip": "Increment",
+  "appTitle": "My To-Do List",
+  "slogan": "Be kind • Try your best • Have fun!",
   "languageMenuTooltip": "Language",
-  "languageSystem": "System default"
+  "languageSystem": "System default",
+
+  "tabToday": "Today",
+  "tabWeek": "This Week",
+  "tabRewards": "Rewards",
+  "tabProgress": "Progress",
+
+  "weekdayShort": "{day, select, mon{Mon} tue{Tue} wed{Wed} thu{Thu} fri{Fri} sat{Sat} sun{Sun} other{}}",
+  "@weekdayShort": {
+    "placeholders": { "day": { "type": "String" } }
+  },
+  "previousWeek": "Previous week",
+  "nextWeek": "Next week",
+  "backToThisWeek": "Back to this week",
+
+  "mustDoTasks": "Must-Do Tasks",
+  "optionalTasks": "Optional Tasks",
+  "columnPoints": "Points",
+  "columnTotal": "Total",
+  "dailyTotal": "Daily total",
+  "dayTotal": "Points for the day",
+  "futureDayHint": "Stars unlock on that day.",
+  "noTasks": "No tasks yet. Add some in Edit lists.",
+
+  "starDone": "{task}, {day}: done",
+  "@starDone": {
+    "placeholders": { "task": { "type": "String" }, "day": { "type": "String" } }
+  },
+  "starNotDone": "{task}, {day}: not done",
+  "@starNotDone": {
+    "placeholders": { "task": { "type": "String" }, "day": { "type": "String" } }
+  },
+  "starLocked": "{task}, {day}: not yet",
+  "@starLocked": {
+    "placeholders": { "task": { "type": "String" }, "day": { "type": "String" } }
+  },
+
+  "pointsToday": "My Points Today",
+  "pointsThisWeek": "This week",
+  "pointsTotalEarned": "Total earned",
+  "pointsLeftToSpend": "Left to spend",
+
+  "rewards": "Rewards",
+  "pointsLeft": "{count, plural, =1{1 point left} other{{count} points left}}",
+  "@pointsLeft": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "needMore": "Need {count} more",
+  "@needMore": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "redeem": "Redeem",
+  "redeemConfirm": "Spend {cost} ⭐ on \"{reward}\"?",
+  "@redeemConfirm": {
+    "placeholders": { "cost": { "type": "int" }, "reward": { "type": "String" } }
+  },
+  "redeemDone": "{kid} got \"{reward}\"!",
+  "@redeemDone": {
+    "placeholders": { "kid": { "type": "String" }, "reward": { "type": "String" } }
+  },
+  "redeemedHistory": "Redeemed",
+  "noRedemptions": "Nothing redeemed yet.",
+
+  "myLevels": "My Levels",
+  "levelNumber": "Level {number}",
+  "@levelNumber": {
+    "placeholders": { "number": { "type": "int" } }
+  },
+  "levelRange": "({min}–{max} pts)",
+  "@levelRange": {
+    "placeholders": { "min": { "type": "int" }, "max": { "type": "int" } }
+  },
+  "levelRangeOpen": "({min}+ pts)",
+  "@levelRangeOpen": {
+    "placeholders": { "min": { "type": "int" } }
+  },
+  "levelProgress": "{kid} has {points, plural, =1{1 point} other{{points} points}}. {missing} more to reach Level {number} ({level}).",
+  "@levelProgress": {
+    "placeholders": {
+      "kid": { "type": "String" },
+      "points": { "type": "int" },
+      "missing": { "type": "int" },
+      "number": { "type": "int" },
+      "level": { "type": "String" }
+    }
+  },
+  "levelTop": "{kid} has {points} points and reached the top level!",
+  "@levelTop": {
+    "placeholders": { "kid": { "type": "String" }, "points": { "type": "int" } }
+  },
+
+  "streakTitle": "7-Day Streak Bonus",
+  "streakDescription": "Finish all must-do tasks every day from Mon to Sun →",
+  "streakReward": "+{bonus} points!",
+  "@streakReward": {
+    "placeholders": { "bonus": { "type": "int" } }
+  },
+  "streakProgress": "{done}/7 days with every must-do task done.",
+  "@streakProgress": {
+    "placeholders": { "done": { "type": "int" } }
+  },
+  "streakEarned": "7/7! The +{bonus} bonus is added.",
+  "@streakEarned": {
+    "placeholders": { "bonus": { "type": "int" } }
+  },
+
+  "notes": "Notes",
+  "notesHint": "Parent notes for {kid} this week...",
+  "@notesHint": {
+    "placeholders": { "kid": { "type": "String" } }
+  },
+
+  "dataBanner": "Data is stored on this device.",
+  "editLists": "Edit lists",
+  "footerHint": "Tap a star when a task is done. Each kid has their own stars and points.",
+
+  "pinEnterTitle": "Enter parent PIN",
+  "pinSetTitle": "Set a PIN",
+  "pinConfirmTitle": "Enter the PIN again",
+  "pinSetSubtitle": "4 digits, asked for when redeeming rewards and editing lists.",
+  "pinWrong": "Wrong PIN",
+  "pinMismatch": "The two PINs don't match. Try again.",
+  "pinForgot": "Forgot PIN?",
+  "pinQuestion": "What is {a} × {b}?",
+  "@pinQuestion": {
+    "placeholders": { "a": { "type": "int" }, "b": { "type": "int" } }
+  },
+  "pinQuestionHint": "Answer this to set a new PIN.",
+  "pinAnswer": "Answer",
+  "pinAnswerWrong": "Not quite. Here is another one.",
+  "pinCheck": "Check",
+  "pinFieldLabel": "PIN, {count} of 4 digits entered",
+  "@pinFieldLabel": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "pinChanged": "PIN changed",
+
+  "manageMustDo": "Must-do",
+  "manageOptional": "Optional",
+  "manageRewards": "Rewards",
+  "manageKids": "Kids",
+  "managePin": "PIN",
+  "reorderHint": "Drag the handle to reorder.",
+  "addTask": "Add task",
+  "editTask": "Edit task",
+  "taskName": "Task name",
+  "taskPoints": "Points",
+  "deleteTaskTitle": "Remove \"{task}\"?",
+  "@deleteTaskTitle": {
+    "placeholders": { "task": { "type": "String" } }
+  },
+  "deleteTaskBody": "Points already earned from this task are kept.",
+  "addReward": "Add reward",
+  "editReward": "Edit reward",
+  "rewardName": "Reward",
+  "rewardCost": "Cost (⭐)",
+  "deleteRewardTitle": "Remove \"{reward}\"?",
+  "@deleteRewardTitle": {
+    "placeholders": { "reward": { "type": "String" } }
+  },
+  "deleteRewardBody": "Past redemptions stay in the history.",
+  "addKid": "Add kid",
+  "renameKid": "Rename kid",
+  "kidName": "Kid's name",
+  "deleteKidTitle": "Delete {kid}?",
+  "@deleteKidTitle": {
+    "placeholders": { "kid": { "type": "String" } }
+  },
+  "deleteKidBody": "All of {kid}'s stars, points, redeemed rewards and notes will be deleted. This can't be undone.",
+  "@deleteKidBody": {
+    "placeholders": { "kid": { "type": "String" } }
+  },
+  "changePin": "Change PIN",
+  "pinSectionBody": "The PIN is asked for when redeeming rewards and when opening this screen.",
+  "emojiLabel": "Icon",
+  "emojiCustomHint": "Or type any emoji",
+  "pointsValue": "+{points}",
+  "@pointsValue": {
+    "placeholders": { "points": { "type": "int" } }
+  },
+  "costValue": "{cost} ⭐",
+  "@costValue": {
+    "placeholders": { "cost": { "type": "int" } }
+  },
+  "decrease": "Decrease",
+  "increase": "Increase",
+
+  "add": "Add",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "remove": "Remove",
+  "edit": "Edit",
+
+  "seedKid1": "Kid 1",
+  "seedKid2": "Kid 2",
+  "seedTaskMakeBed": "Make the bed after waking up",
+  "seedTaskBrushTeeth": "Brush teeth morning + night",
+  "seedTaskGetDressed": "Get dressed and put dirty clothes in the basket",
+  "seedTaskPackBag": "Pack the school bag",
+  "seedTaskEatNeatly": "Eat neatly without many reminders",
+  "seedTaskTidyToys": "Put toys away after playing",
+  "seedTaskHomework": "Finish today's homework",
+  "seedTaskBedtime": "Bath, pajamas, ready for bed",
+  "seedTaskReading": "Read for 15–20 minutes",
+  "seedTaskChore": "Offer to help with a chore",
+  "seedTaskFoldClothes": "Fold or put away clothes",
+  "seedTaskPlants": "Water or care for the plants",
+  "seedTaskCreative": "Draw, craft or make something",
+  "seedTaskOutdoor": "Play outside for 30+ minutes",
+  "seedTaskEnglish": "15 extra minutes of English",
+  "seedTaskLearnNew": "Learn something new and tell Mom or Dad",
+  "seedTaskGoodDeed": "Do a good deed without being asked",
+  "seedRewardDessert": "Pick a favorite dessert",
+  "seedRewardMovie": "Pick the family movie",
+  "seedRewardGame": "Pick the family game",
+  "seedRewardOuting": "Choose the weekend outing",
+  "seedRewardTreat": "A small treat of your choice",
+  "seedRewardExperience": "A special experience: a trip, a workshop, a theme park…",
+  "seedLevel1": "Little Helper",
+  "seedLevel2": "Super Helper",
+  "seedLevel3": "Family Hero",
+  "seedLevel4": "Independent Kid"
 }
