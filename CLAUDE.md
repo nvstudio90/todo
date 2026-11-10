@@ -77,3 +77,24 @@ Mỗi nhóm × 2 hướng (`Orientation.landscape` / `portrait`) = phải có k�
 dọc + ngang, fold, tablet 7"/9" và >= 10" (Android emulator + `adb shell wm
 size`/`wm density`, hoặc iOS Simulator iPhone / iPad mini / iPad Pro, xoay cả
 hai hướng). Nêu rõ trong báo cáo cấu hình nào đã kiểm, cấu hình nào chưa.
+
+### Ký iOS (code signing)
+
+Chỉ ký bằng **Ngoc Le (Personal Team)** `V5TR223894`. **Cấm** để Xcode tự đăng
+ký bundle ID, thiết bị hay provisioning profile với bất kỳ team công ty nào
+(ONE MOUNT…), kể cả chỉ để thử nhanh.
+
+**Why:** đây là project cá nhân nhỏ, dùng nội bộ gia đình. Máy dev đăng nhập
+sẵn nhiều team công ty nên automatic signing dễ đăng ký nhầm `com.nvstudio.todo`
+vào tài khoản công ty, và muốn gỡ ra thì phải nhờ admin công ty.
+
+**How to apply:**
+- `DEVELOPMENT_TEAM` trong `ios/Runner.xcodeproj/project.pbxproj` phải là
+  `V5TR223894`. Thấy giá trị khác thì dừng lại, không build cho máy thật.
+- Chỉ những lệnh nhắm máy thật mới đăng ký với Apple (`flutter run` lên
+  device, `flutter build ios`/`ipa`, Archive, `-allowProvisioningUpdates`), nên
+  phải kiểm team trước khi chạy. Simulator chỉ ký adhoc, chạy thoải mái.
+- Không chọn team công ty trong tab Signing & Capabilities của Xcode, kể cả
+  tạm thời: chỉ cần chọn là Xcode có thể đăng ký ngay.
+- Cần chữ ký dài hơn 7 ngày thì dùng tài khoản Apple Developer cá nhân, không
+  mượn team công ty.
