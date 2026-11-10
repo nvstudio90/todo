@@ -216,54 +216,56 @@ test/
 - [x] Khởi tạo project Flutter (Android, iOS)
 - [x] Đổi app id sang `com.nvstudio.todo`
 - [x] Chọn ngôn ngữ trong app (Theo hệ thống / English / Tiếng Việt), chuỗi giao diện trong ARB
-- [ ] Thêm dependency (riverpod, drift, go_router, intl, flutter_animate, confetti)
-- [ ] Bật lint chặt hơn (`very_good_analysis` hoặc tự cấu hình)
-- [ ] Thêm font vào assets, dựng `AppTheme` sáng/tối theo [design-system.md](design-system.md)
-- [ ] Dựng `LayoutClass` và `LayoutConfig` (breakpoint, khoảng cách, số cột) theo design-system mục 6, kèm unit test chọn nhóm theo kích thước
-- [ ] Khung điều hướng chuyển giữa Tab và Dashboard theo `LayoutClass`, state đặt trong provider để không mất khi gập/mở máy
-- [ ] Màn "gallery" nội bộ để xem các component
+- [x] Thêm dependency (riverpod, drift, go_router, intl, flutter_animate, confetti)
+- [x] Bật lint chặt hơn (`very_good_analysis` hoặc tự cấu hình)
+- [x] Thêm font vào assets, dựng `AppTheme` sáng/tối theo [design-system.md](design-system.md)
+- [x] Dựng `LayoutClass` và `LayoutConfig` (breakpoint, khoảng cách, số cột) theo design-system mục 6, kèm unit test chọn nhóm theo kích thước
+- [x] Khung điều hướng chuyển giữa Tab và Dashboard theo `LayoutClass`, state đặt trong provider để không mất khi gập/mở máy
+- [x] Màn "gallery" nội bộ để xem các component
 
 ### Giai đoạn 1: Dữ liệu và luật tính điểm
-- [ ] Schema drift, migration v1, seed dữ liệu mặc định (mục 4) kèm `seedKey`, chữ mặc định trong ARB `en`/`vi`
-- [ ] Các repository (xoá bé xoá theo dữ liệu của bé)
-- [ ] `scoring/`: `pointsOn`, `weekPoints`, `streak`, `totalEarned`, `available`, `level`
-- [ ] Unit test đủ các trường hợp biên: tuần qua tháng/năm, bỏ sao, việc bị ẩn giữa tuần, sửa điểm việc, chặn đánh sao ngày tương lai, xoá bé
+- [x] Schema drift, migration v1, seed dữ liệu mặc định (mục 4) kèm `seedKey`, chữ mặc định trong ARB `en`/`vi`
+- [x] Các repository (xoá bé xoá theo dữ liệu của bé)
+- [x] `scoring/`: `pointsOn`, `weekPoints`, `streak`, `totalEarned`, `available`, `level`
+- [x] Unit test đủ các trường hợp biên: tuần qua tháng/năm, bỏ sao, việc bị ẩn giữa tuần, sửa điểm việc, chặn đánh sao ngày tương lai, xoá bé
 
 ### Giai đoạn 2: Màn Hôm nay
-- [ ] Header: tiêu đề nhiều màu, `KidChip` (cuộn ngang khi nhiều bé), `WeekSwitcher`
-- [ ] `PointsCard`
-- [ ] Thanh chọn ngày T2…CN với màu pastel
-- [ ] Danh sách việc bắt buộc và tự chọn, `StarToggle` có hiệu ứng và rung, khoá ở ngày tương lai
-- [ ] Tổng điểm ngày
-- [ ] Điện thoại ngang: `NavigationRail`, header 1 dòng, 2 cột việc
+- [x] Header: tiêu đề nhiều màu, `KidChip` (cuộn ngang khi nhiều bé), `WeekSwitcher`
+- [x] `PointsCard`
+- [x] Thanh chọn ngày T2…CN với màu pastel
+- [x] Danh sách việc bắt buộc và tự chọn, `StarToggle` có hiệu ứng và rung, khoá ở ngày tương lai
+- [x] Tổng điểm ngày
+- [x] Điện thoại ngang: `NavigationRail`, header gọn 2 dòng (một dòng không đủ chỗ cho tiêu đề, chip bé, tuần và ⭐), 2 cột việc
 
 ### Giai đoạn 3: Màn Cả tuần và Dashboard
-- [ ] Bảng tuần: cột tên cố định, cuộn ngang khi thiếu chỗ, cột ngày có màu, gạch chân ngày hôm nay
-- [ ] Cột Total và dòng "Tổng điểm theo ngày"
-- [ ] Dashboard cho `medium` trở lên: dọc thì xếp chồng, ngang thì thêm cột phụ
+- [x] Bảng tuần: cột tên cố định, cuộn ngang khi thiếu chỗ, cột ngày có màu, gạch chân ngày hôm nay
+- [x] Cột Total và dòng "Tổng điểm theo ngày"
+- [x] Dashboard cho `medium` trở lên: dọc thì xếp chồng, ngang thì thêm cột phụ
 
 ### Giai đoạn 4: Đổi thưởng và Thành tích
-- [ ] Lưới phần thưởng, trạng thái "Cần thêm X điểm" và "Đổi ngay"
-- [ ] Mã PIN 4 số: tạo (nhập 2 lần), kiểm tra, lưu hash, quên PIN (phép nhân)
-- [ ] Dialog xác nhận, nhập PIN, trừ điểm, confetti, lịch sử đổi
-- [ ] Level và thanh tiến độ
-- [ ] Streak card và chip ngày
-- [ ] Ghi chú tuần theo từng bé (tự lưu khi gõ, debounce)
+- [x] Lưới phần thưởng, trạng thái "Cần thêm X điểm" và "Đổi ngay"
+- [x] Mã PIN 4 số: tạo (nhập 2 lần), kiểm tra, lưu hash, quên PIN (phép nhân)
+- [x] Dialog xác nhận, nhập PIN, trừ điểm, confetti, lịch sử đổi
+- [x] Level và thanh tiến độ
+- [x] Streak card và chip ngày
+- [x] Ghi chú tuần theo từng bé (tự lưu khi gõ, debounce)
 
 ### Giai đoạn 5: Sửa danh sách
-- [ ] Khoá màn Sửa danh sách bằng PIN, rời màn thì khoá lại
-- [ ] Thêm/sửa/xoá (ẩn) việc, chọn emoji, kéo để sắp xếp
-- [ ] Thêm/sửa/xoá phần thưởng
-- [ ] Các bé: thêm (bắt buộc nhập tên), đổi tên, sắp xếp, xoá (popup xác nhận, không xoá được bé cuối cùng)
-- [ ] Đổi mã PIN
+- [x] Khoá màn Sửa danh sách bằng PIN, rời màn thì khoá lại
+- [x] Thêm/sửa/xoá (ẩn) việc, chọn emoji, kéo để sắp xếp
+- [x] Thêm/sửa/xoá phần thưởng
+- [x] Các bé: thêm (bắt buộc nhập tên), đổi tên, sắp xếp, xoá (popup xác nhận, không xoá được bé cuối cùng)
+- [x] Đổi mã PIN
 
 ### Giai đoạn 6: Hoàn thiện và phát hành
 - [ ] Kiểm tra layout trên đủ các cấu hình ở design-system mục 6.6 (phone, máy gập, tablet 7"/9"/10"+), cả dọc và ngang
-- [ ] Gập/mở máy khi đang dùng app: không mất state, không overflow
+- [x] Gập/mở máy khi đang dùng app: không mất state, không overflow
 - [ ] Kiểm tra chế độ tối, cỡ chữ lớn, TalkBack/VoiceOver
-- [ ] Kiểm tra cả tiếng Việt và tiếng Anh: không còn chữ lẫn ngôn ngữ kia, chữ dài không bị cắt hay overflow
-- [ ] Icon app và splash screen
-- [ ] Widget test các màn chính, golden test cho component
+- [x] Kiểm tra cả tiếng Việt và tiếng Anh: không còn chữ lẫn ngôn ngữ kia, chữ dài không bị cắt hay overflow
+- [x] Icon app
+- [ ] Splash screen
+- [x] Widget test các màn chính
+- [ ] Golden test cho component
 - [ ] Ký bản release Android (keystore), cấu hình signing iOS
 - [ ] Chuẩn bị store listing: ảnh chụp, mô tả, chính sách quyền riêng tư (app cho trẻ em: Google Play "Designed for Families", App Store Kids Category)
 
